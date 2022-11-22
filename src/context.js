@@ -23,18 +23,17 @@ const AppProvider = ({ children }) => {
   const [error, setError] = useState(false);
   const [quiz, setQuiz] = useState({
     amount: 10,
-    category: 'sport',
+    category: 'sports',
     difficulty: 'easy',
   });
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchQuestions = async (url) => {
     setLoading(true);
     setWaiting(false);
-    const resp = await axios(url).catch((err) => console.log(err));
-    if (resp) {
-      const data = resp.data.results;
+    const response = await axios(url).catch((err) => console.log(err));
+    if (response) {
+      const data = response.data.results;
       if (data.length > 0) {
         setQuestions(data);
         setLoading(false);
@@ -60,7 +59,6 @@ const AppProvider = ({ children }) => {
       }
     });
   };
-
   const checkAnswer = (value) => {
     if (value) {
       setCorrect((oldState) => oldState + 1);
@@ -71,19 +69,16 @@ const AppProvider = ({ children }) => {
   const openModal = () => {
     setIsModalOpen(true);
   };
-
   const closeModal = () => {
     setWaiting(true);
     setCorrect(0);
     setIsModalOpen(false);
   };
-
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     setQuiz({ ...quiz, [name]: value });
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const { amount, category, difficulty } = quiz;
@@ -105,9 +100,9 @@ const AppProvider = ({ children }) => {
         nextQuestion,
         checkAnswer,
         closeModal,
+        quiz,
         handleChange,
         handleSubmit,
-        quiz,
       }}
     >
       {children}

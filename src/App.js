@@ -14,16 +14,21 @@ function App() {
     nextQuestion,
     checkAnswer,
   } = useGlobalContext();
-  if (waiting) return <SetupForm />;
-  if (loading) return <Loading />;
+  if (waiting) {
+    return <SetupForm />;
+  }
+  if (loading) {
+    return <Loading />;
+  }
+
   const { question, incorrect_answers, correct_answer } = questions[index];
-  // const answers = [...incorrect_answers, correct_answer];
+  // const answers = [...incorrect_answers, correct_answer]
   let answers = [...incorrect_answers];
   const tempIndex = Math.floor(Math.random() * 4);
   if (tempIndex === 3) {
     answers.push(correct_answer);
   } else {
-    answers.push(correct_answer[tempIndex]);
+    answers.push(answers[tempIndex]);
     answers[tempIndex] = correct_answer;
   }
   return (
@@ -31,7 +36,7 @@ function App() {
       <Modal />
       <section className="quiz">
         <p className="correct-answers">
-          correct answers: {correct}/{index}
+          correct answers : {correct}/{index}
         </p>
         <article className="container">
           <h2 dangerouslySetInnerHTML={{ __html: question }} />
@@ -39,8 +44,8 @@ function App() {
             {answers.map((answer, index) => {
               return (
                 <button
-                  className="answer-btn"
                   key={index}
+                  className="answer-btn"
                   onClick={() => checkAnswer(correct_answer === answer)}
                   dangerouslySetInnerHTML={{ __html: answer }}
                 />
@@ -49,7 +54,7 @@ function App() {
           </div>
         </article>
         <button className="next-question" onClick={nextQuestion}>
-          skip question
+          next question
         </button>
       </section>
     </main>
